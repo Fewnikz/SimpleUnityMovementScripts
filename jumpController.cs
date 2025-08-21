@@ -1,7 +1,6 @@
 using UnityEngine;
 using MoreMountains.Feedbacks;
 
-// Just a useless comment to test git
 public class jumpController : MonoBehaviour
 {
     // Raycast and ground check
