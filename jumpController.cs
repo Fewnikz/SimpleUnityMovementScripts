@@ -4,37 +4,29 @@ using MoreMountains.Feedbacks;
 public class jumpController : MonoBehaviour
 {
     // Raycast and ground check
-    #region raycastAndGroundCheckVairables
     [SerializeField] private Transform feet;
     [SerializeField] private float raycastLength;
     [SerializeField] private LayerMask groundMask;
-    private bool _onGround;
-    #endregion
+    private bool _onGround; // Checks if the player is on the ground
 
     // Variables for jump and gravity
-    #region jumpGravityVariables
-    [SerializeField] private float jumpPower;
-    [SerializeField] private float gravityFall;
-    [SerializeField] private float normalGravityScale;
+    [SerializeField] private float jumpPower; // How powerful the player's jump is
+    [SerializeField] private float gravityFall; // The gravity then the player falls down
+    [SerializeField] private float normalGravityScale; // Normal gravity then the player moves up or stands still
     private bool _jumpButtonPressed;
     private Rigidbody2D _rigidbody2D;
-    [SerializeField] private MMFeedbacks jumpFeedback;
-    #endregion
+    [SerializeField] private MMFeedbacks jumpFeedback; // Remove this unless you have the Feel asset form unity
 
     // Variables for variable jump height
-    #region variableJumpHeight
-    public float jumpStartTime;
-    private float _jumpTime;
+    public float jumpStartTime; // What the timer for holding jump starts at
+    private float _jumpTime; // The amount of time the player can hold jump
     private bool _isJumping;
     [SerializeField] private float jumpPowerFraction;
-    #endregion
 
     // Variables for coyoteJump
-    #region coyoteJump
     [SerializeField] private float coyoteTimer;
     [SerializeField] private float coyoteStartTimer;
     private bool _canCoyoteJump;
-    #endregion
 
     // FixedUpdate Functions
     private void PerformJump()
@@ -57,7 +49,7 @@ public class jumpController : MonoBehaviour
         {
             if (_jumpTime > 0)
             {
-                _rigidbody2D.AddForce(Vector2.up * jumpPower * jumpPowerFraction, ForceMode2D.Impulse);
+                _rigidbody2D.AddForce(Vector2.up * (jumpPower * jumpPowerFraction), ForceMode2D.Impulse);
                 _jumpTime -= Time.deltaTime;
             }
             else
@@ -71,12 +63,16 @@ public class jumpController : MonoBehaviour
 
     private void UpdateGravityScale()
     {
+        // Tjekker om spillerens velocity er højer eller = 0
         if (_rigidbody2D.linearVelocity.y >= 0)
         {
+            // Gør så gravityScale er = normalGravityScale
             _rigidbody2D.gravityScale = normalGravityScale;
         }
+        // Tjekker om spillerens velocity er lavere
         else if (_rigidbody2D.linearVelocity.y < 0)
         {
+            // Gør så spillerens gravityScale er = gravityFall
             _rigidbody2D.gravityScale = gravityFall;
         }        
     }

@@ -1,30 +1,27 @@
-using System.Runtime.CompilerServices;
-using UnityEditor.Callbacks;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEditor;
 
 public class MoveController : MonoBehaviour
 {
-    #region horizontalMovementVariables
-    private float _playerInput;
-    private float usedSpeed;
-    [SerializeField] private float walkSpeed = 3.33f;
 
-    [SerializeField] private float runningSpeed = 6;
-    #endregion
-    private Rigidbody2D body;
+    // Variabler til horisontal bevægelse
+    private float _playerInput;
+    private float usedSpeed; // Den aktuelle hastighed spilleren bevæger sig med
+    [SerializeField] private float walkSpeed = 3.33f; // Gå-hastighed
+    [SerializeField] private float runningSpeed = 6; // Løbe-hastighed (kan justeres i Inspector)
+
+    private Rigidbody2D _rigidbody2D; // Reference til spillerens Rigidbody2D komponent
 
     void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
-        usedSpeed = walkSpeed; 
+        _rigidbody2D = GetComponent<Rigidbody2D>(); // Henter Rigidbody2D komponenten på spilleren
+        usedSpeed = walkSpeed; // Starter med at gå       
     }
 
     void FixedUpdate()
     {
+        // Here is the horizontal movement of the player
         _playerInput = Input.GetAxis("Horizontal");
-        body.linearVelocity = new Vector2(_playerInput * usedSpeed, body.linearVelocity.y);
+        _rigidbody2D.linearVelocity = new Vector2(_playerInput * usedSpeed, _rigidbody2D.linearVelocity.y);
     }
 
     // Update is called every frame
